@@ -35,6 +35,8 @@
 
 #include "SdFile.h"
 
+#error "SD Support enabled!"
+
 /**
  *  Create a file object and open it in the current working directory.
  *

@@ -221,12 +221,12 @@
  * :['A4988', 'A5984', 'DRV8825', 'LV8729', 'TB6560', 'TB6600', 'TMC2100', 'TMC2130', 'TMC2130_STANDALONE', 'TMC2160', 'TMC2160_STANDALONE', 'TMC2208', 'TMC2208_STANDALONE', 'TMC2209', 'TMC2209_STANDALONE', 'TMC26X', 'TMC26X_STANDALONE', 'TMC2660', 'TMC2660_STANDALONE', 'TMC5130', 'TMC5130_STANDALONE', 'TMC5160', 'TMC5160_STANDALONE']
  */
 #if ENABLED(KNUTWURST_TMC)
-  #define X_DRIVER_TYPE  TMC2208_STANDALONE
-  #define Y_DRIVER_TYPE  TMC2208_STANDALONE
-  #define Z_DRIVER_TYPE  TMC2208_STANDALONE
+  #define X_DRIVER_TYPE  TMC2209_STANDALONE
+  #define Y_DRIVER_TYPE  TMC2209_STANDALONE
+  #define Z_DRIVER_TYPE  TMC2209_STANDALONE
   // #define X2_DRIVER_TYPE A4988
   // #define Y2_DRIVER_TYPE A4988
-  #define Z2_DRIVER_TYPE TMC2208_STANDALONE
+  #define Z2_DRIVER_TYPE TMC2209_STANDALONE
   // #define Z3_DRIVER_TYPE A4988
   // #define Z4_DRIVER_TYPE A4988
   // #define I_DRIVER_TYPE  A4988
@@ -235,14 +235,44 @@
   // #define U_DRIVER_TYPE  A4988
   // #define V_DRIVER_TYPE  A4988
   // #define W_DRIVER_TYPE  A4988
-  #define E0_DRIVER_TYPE TMC2208_STANDALONE
-  #define E1_DRIVER_TYPE TMC2208_STANDALONE
+  #define E0_DRIVER_TYPE TMC2209_STANDALONE
+  #define E1_DRIVER_TYPE TMC2209_STANDALONE
   // #define E2_DRIVER_TYPE A4988
   // #define E3_DRIVER_TYPE A4988
   // #define E4_DRIVER_TYPE A4988
   // #define E5_DRIVER_TYPE A4988
   // #define E6_DRIVER_TYPE A4988
   // #define E7_DRIVER_TYPE A4988
+#elif ENABLED(KNUTWURST_TMC2209_UART)
+  #define X_DRIVER_TYPE  TMC2209
+  #define Y_DRIVER_TYPE  TMC2209
+  #define Z_DRIVER_TYPE  TMC2209
+  #define Z2_DRIVER_TYPE TMC2209
+  #define E0_DRIVER_TYPE TMC2209
+  #define E1_DRIVER_TYPE TMC2209
+
+  #define TMC_PORT1_RX     12
+  #define TMC_PORT1_TX     6
+  #define TMC_PORT2_RX     50
+  #define TMC_PORT2_TX     4
+  #define X_SLAVE_ADDRESS  0
+  #define Y_SLAVE_ADDRESS  1
+  #define Z_SLAVE_ADDRESS  2
+  #define E0_SLAVE_ADDRESS 3
+  #define E1_SLAVE_ADDRESS 3
+  #define Z2_SLAVE_ADDRESS 3
+  #define X_SERIAL_RX_PIN  TMC_PORT1_RX
+  #define X_SERIAL_TX_PIN  TMC_PORT1_TX
+  #define Y_SERIAL_RX_PIN  TMC_PORT1_RX
+  #define Y_SERIAL_TX_PIN  TMC_PORT1_TX
+  #define Z_SERIAL_RX_PIN  TMC_PORT1_RX
+  #define Z_SERIAL_TX_PIN  TMC_PORT1_TX
+  #define Z2_SERIAL_RX_PIN TMC_PORT2_RX
+  #define Z2_SERIAL_TX_PIN TMC_PORT2_TX
+  #define E0_SERIAL_RX_PIN TMC_PORT1_RX
+  #define E0_SERIAL_TX_PIN TMC_PORT1_TX
+  #define E1_SERIAL_RX_PIN TMC_PORT1_RX
+  #define E1_SERIAL_TX_PIN TMC_PORT1_TX
 #else
   #define X_DRIVER_TYPE  A4988
   #define Y_DRIVER_TYPE  A4988
@@ -1993,7 +2023,7 @@
 
 // @section motion
 
-#if DISABLED(KNUTWURST_TMC)
+#if DISABLED(KNUTWURST_TMC) && DISABLED(KNUTWURST_TMC2209_UART)
   #if ANY(KNUTWURST_MEGA, KNUTWURST_MEGA_S, KNUTWURST_MEGA_X)
     // Invert the stepper direction. Change (or reverse the motor connector) if an axis goes the wrong way.
     #define INVERT_X_DIR true
@@ -2096,7 +2126,7 @@
   #endif
 #endif // if DISABLED(KNUTWURST_TMC)
 
-#if ENABLED(KNUTWURST_TMC)
+#if ENABLED(KNUTWURST_TMC) || ENABLED(KNUTWURST_TMC2209_UART)
   #if ANY(KNUTWURST_MEGA, KNUTWURST_MEGA_S, KNUTWURST_MEGA_X)
     // Invert the stepper direction. Change (or reverse the motor connector) if an axis goes the wrong way.
     #define INVERT_X_DIR false // set to true for stock drivers or TMC2208 with reversed connectors
@@ -3078,7 +3108,7 @@
  * SD Card support is disabled by default. If your controller has an SD slot,
  * you must uncomment the following option or it won't work.
  */
-#define SDSUPPORT
+//#define SDSUPPORT
 
 /**
  * SD CARD: ENABLE CRC
